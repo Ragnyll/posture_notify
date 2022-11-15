@@ -1,16 +1,11 @@
 # Posture notify
-A simple progrm for telling the user when to change their posture from a `sitting` -> `standing` -> `break` position
+A simple program for telling the user when to change their posture from a `sitting` -> `standing` -> `break` position
+
+This works with systemd so it will work on linux. Not windows or mac though. So if you wanna do that... idk, fuck you i guess.
 
 ## Installation
 
 ### Linux:
-_May prompt for sudo password_
 ```
-sudo ./install.sh
+./install.sh
 ```
-
-### Windows:
-
-### MacOs:
-
-idk man, you figure it out
