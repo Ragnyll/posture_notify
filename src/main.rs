@@ -1,12 +1,7 @@
 use notify_rust::Notification;
 use std::convert::AsRef;
 use std::io::prelude::Write;
-use std::fs;
-use std::fs::File;
-use std::error::Error;
-use std::str::FromStr;
-use std::path::PathBuf;
-use std::collections::HashSet;
+use std::{fs, fs::File, str::FromStr, error::Error, path::PathBuf, collections::HashSet};
 use strum::IntoEnumIterator;
 use strum_macros::{AsRefStr, EnumString, EnumIter};
 
@@ -29,7 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // if the file does not contain a valid posture just make the current state
     // PostureStatuses::BREAK so it can advance from there
     if !postures.contains(&current_state) {
-        current_state = PostureStatuses::Break.as_ref().to_string();
+        current_state = PostureStatuses::Sitting.as_ref().to_string();
     }
 
     let next_state = match PostureStatuses::from_str(&current_state)? {
