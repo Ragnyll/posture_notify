@@ -1,7 +1,7 @@
 use notify_rust::Notification;
 use std::convert::AsRef;
 use std::io::prelude::Write;
-use std::{fs, fs::File, str::FromStr, error::Error, path::PathBuf, collections::HashSet};
+use std::{env, fs, fs::File, str::FromStr, error::Error, path::PathBuf, collections::HashSet};
 use strum::IntoEnumIterator;
 use strum_macros::{AsRefStr, EnumString, EnumIter};
 
@@ -9,6 +9,20 @@ fn main() -> Result<(), Box<dyn Error>> {
     let posture_cache_file: PathBuf = dirs::cache_dir()
         .expect("Cannot find user's cache_dir")
         .join("posture");
+
+    let mut args = env::args();
+    // if there are args its for resetting the state
+    if args.len() > 1 {
+        let arg = args.nth(1).unwrap();
+        if arg == "reset" {
+            fs::remove_file(posture_cache_file)?;
+        } else {
+            panic!("unknown argument {:?}", arg)
+        }
+
+        return Ok(());
+    }
+
     let mut postures: HashSet<String> = HashSet::new();
     PostureStatuses::iter().for_each(|p| {
         postures.insert(p.as_ref().into());
