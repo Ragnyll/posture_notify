@@ -9,6 +9,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let posture_cache_file: PathBuf = dirs::cache_dir()
         .expect("Cannot find user's cache_dir")
         .join("posture");
+    let mut current_state = fs::read_to_string(&posture_cache_file)?;
 
     let mut args = env::args();
     // if there are args its for resetting the state
@@ -16,6 +17,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         let arg = args.nth(1).unwrap();
         if arg == "reset" {
             fs::remove_file(posture_cache_file)?;
+        } else if arg == "status"{
+            println!("Current posture status = {}", current_state);
         } else {
             panic!("unknown argument {:?}", arg)
         }
@@ -31,7 +34,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     if !posture_cache_file.exists() {
         File::create(&posture_cache_file)?;
     }
-    let mut current_state = fs::read_to_string(&posture_cache_file)?;
     // re "create" the exisiting file to blow away existing data
     let mut file = File::create(&posture_cache_file)?;
 
